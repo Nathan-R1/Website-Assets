@@ -80,7 +80,7 @@ nav {
     text-align: center;
     background:
         linear-gradient(rgba(15,23,42,0.82), rgba(15,23,42,0.94)),
-        url('images/hero.jpg') center/cover;
+        url('https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/hero.jpg') center/cover;
 }
 
 .hero-content {
@@ -223,27 +223,75 @@ section {
 
 .work-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    text-align: center;
 }
 
 .work-card {
-    text-align: center;
-    min-width: 0;
+    background: transparent;
+    padding: 10px;
+    border: none;
+    box-shadow: none;
 }
 
 .work-icon {
-    font-size: clamp(42px, 5vw, 72px);
-    margin-bottom: 20px;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 20px auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    border: 6px solid;
+    font-size: 44px;
+
+    background: white;
 }
 
+/* Titles */
 .work-card h3 {
-    font-size: clamp(20px, 2vw, 32px);
+    margin-top: 10px;
+    font-size: 20px;
+    letter-spacing: 1px;
 }
 
-.work-card p {
-    font-size: clamp(12px, 1.1vw, 17px);
-    line-height: 1.4;
+/* underline bar under title */
+.work-card h3::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    margin: 10px auto 15px auto;
+    border-radius: 2px;
+}
+
+/* Colors per card */
+.work-card:nth-child(1) .work-icon { border-color: #e53935; color: #e53935; }
+.work-card:nth-child(2) .work-icon { border-color: #16a34a; color: #16a34a; }
+.work-card:nth-child(3) .work-icon { border-color: #1e40af; color: #1e40af; }
+.work-card:nth-child(4) .work-icon { border-color: #a855f7; color: #a855f7; }
+
+/* underline colors */
+.work-card:nth-child(1) h3::after { background: #e53935; }
+.work-card:nth-child(2) h3::after { background: #16a34a; }
+.work-card:nth-child(3) h3::after { background: #1e40af; }
+.work-card:nth-child(4) h3::after { background: #a855f7; }
+
+/* Responsive */
+@media(max-width: 1000px) {
+    .work-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+@media(max-width: 600px) {
+    .work-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .news-carousel-wrapper {
@@ -255,38 +303,27 @@ section {
 .news-carousel {
     display: flex;
     gap: 24px;
-
     transition: transform 0.5s ease;
     will-change: transform;
-
     align-items: stretch;
 }
 
 .news-card {
-
     flex: 0 0 calc((100% - 48px) / 3);
-
     background: #1e293b;
-
     border-radius: 22px;
     overflow: hidden;
-
     border: 1px solid rgba(255,255,255,0.05);
-
     display: flex;
     flex-direction: column;
-
     height: 560px;
-
     min-width: 0;
 }
-  
+
 .news-content {
     padding: 26px;
-
     display: flex;
     flex-direction: column;
-
     flex: 1;
     min-height: 0;
 }
@@ -297,26 +334,18 @@ section {
 }
 
 .news-content p {
-
     color: #cbd5e1;
-
     white-space: normal;
-
     overflow-wrap: anywhere;
     word-break: normal;
-
     hyphens: auto;
-
     flex: 1;
-
     font-size: 15px;
     line-height: 1.5;
-
     overflow-y: auto;
-
     min-width: 0;
 }
-  
+
 .news-card img {
     width: 100%;
     height: 230px;
@@ -440,7 +469,7 @@ footer {
         <nav>
 
             <div class="logo">
-                Nathansoftware
+                <img src="logo.png" alt="Nathansoftware" style="height: 48px; width: auto; display: block;">
             </div>
 
             <div class="nav-links">
@@ -478,7 +507,7 @@ footer {
                 News
             </a>
 
-            <a href="https://github.com/" class="button secondary">
+            <a href="https://github.com/Nathan-R1/" class="button secondary">
                 Github
             </a>
 
@@ -504,7 +533,7 @@ footer {
 
             <div class="card">
 
-                <img src="images/planet-bounce.jpg" alt="Planet Bounce">
+                <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/planet-bounce.jpg" alt="Planet Bounce">
 
                 <h3>Planet Bounce</h3>
 
@@ -517,7 +546,7 @@ footer {
 
             <div class="card">
 
-                <img src="images/survey.jpg" alt="Survey Creator">
+                <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/survey.jpg" alt="Survey Creator">
 
                 <h3>Easy Survey Creator</h3>
 
@@ -530,7 +559,7 @@ footer {
 
             <div class="card">
 
-                <img src="images/tools.png" alt="Developer Tools">
+                <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/tools.png" alt="Developer Tools">
 
                 <h3>Developer Tools</h3>
 
@@ -597,7 +626,7 @@ footer {
 
             <div>
 
-                <img src="images/about.png" alt="About Nathansoftware">
+                <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/about.png" alt="About Nathansoftware">
 
             </div>
 
@@ -612,52 +641,42 @@ footer {
     <div class="container">
 
         <div class="section-title">
-
             <h2>Our Work</h2>
-
-            <p>
-                Games, applications and software engineering solutions.
-            </p>
-
+            <p>We have extensive experience in a variety of areas.</p>
         </div>
 
         <div class="grid work-grid">
 
-            <div class="card work-card">
-
+            <div class="work-card">
                 <div class="work-icon">🎮</div>
-
-                <h3>Games</h3>
-
+                <h3>GAMES</h3>
                 <p>
-                    Fast-paced arcade games and multiplayer experiences.
+                    We have designed numerous games ranging from classics like Connect Four and Black Jack to fast-action space combat games.
                 </p>
-
             </div>
 
-            <div class="card work-card">
-
+            <div class="work-card">
                 <div class="work-icon">🔧</div>
-
-                <h3>Tools</h3>
-
+                <h3>TOOLS</h3>
                 <p>
-                    Productivity tools and workflow automation applications.
+                    High quality software tools including survey systems, text writers, and productivity utilities.
                 </p>
-
             </div>
 
-            <div class="card work-card">
-
+            <div class="work-card">
                 <div class="work-icon">📱</div>
-
-                <h3>Apps</h3>
-
+                <h3>APPS</h3>
                 <p>
-                    Android and cross-platform applications tailored to
-                    modern user needs.
+                    Android and iOS applications designed for modern mobile and desktop ecosystems.
                 </p>
+            </div>
 
+            <div class="work-card">
+                <div class="work-icon">🖼️</div>
+                <h3>DESIGN</h3>
+                <p>
+                    UI/UX design focused on usability, responsiveness, and modern visual systems.
+                </p>
             </div>
 
         </div>
@@ -689,7 +708,7 @@ footer {
             <div class="news-carousel" id="newsCarousel">
 
                 <div class="news-card">
-                    <img src="images/lords.jpg" alt="Lords">
+                    <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/lords.jpg" alt="Lords">
                     <div class="news-content">
                         <h3>Lords reaches 40,000 downloads</h3>
                         <p>
@@ -701,7 +720,7 @@ footer {
                 </div>
 
                 <div class="news-card">
-                    <img src="images/giant-fairy.png" alt="Giant and Fairy">
+                    <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/giant-fairy.png" alt="Giant and Fairy">
                     <div class="news-content">
                         <h3>Giant and Fairy</h3>
                         <p>
@@ -712,7 +731,7 @@ footer {
                 </div>
 
                 <div class="news-card">
-                    <img src="images/nzcsc.png" alt="NZCSC">
+                    <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/nzcsc.png" alt="NZCSC">
                     <div class="news-content">
                         <h3>NZCSC Hackathon 2021</h3>
                         <p>
@@ -724,7 +743,7 @@ footer {
                 </div>
 
                 <div class="news-card">
-                    <img src="images/draskin.jpg" alt="Draskin Conflict">
+                    <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/draskin.jpg" alt="Draskin Conflict">
                     <div class="news-content">
                         <h3>Draskin Conflict App</h3>
                         <p>
@@ -735,7 +754,7 @@ footer {
                 </div>
 
                 <div class="news-card">
-                    <img src="images/devastator.jpg" alt="Devastator">
+                    <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/devastator.jpg" alt="Devastator">
                     <div class="news-content">
                         <h3>Devastator Release</h3>
                         <p>
@@ -746,7 +765,7 @@ footer {
                 </div>
 
                 <div class="news-card">
-                    <img src="images/glasspane.jpg" alt="Glass Pane">
+                    <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/glasspane.jpg" alt="Glass Pane">
                     <div class="news-content">
                         <h3>UI Innovation</h3>
                         <p>
@@ -757,7 +776,7 @@ footer {
                 </div>
 
                 <div class="news-card">
-                    <img src="images/pb10000.jpg" alt="Planet Bounce">
+                    <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/pb10000.jpg" alt="Planet Bounce">
                     <div class="news-content">
                         <h3>Planet Bounce 10,000 downloads</h3>
                         <p>
@@ -768,7 +787,7 @@ footer {
                 </div>
 
                 <div class="news-card">
-                    <img src="images/kpmg.jpg" alt="KPMG">
+                    <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/kpmg.jpg" alt="KPMG">
                     <div class="news-content">
                         <h3>KPMG Cyber Challenge</h3>
                         <p>
