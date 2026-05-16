@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Nathansoftware</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0f172a;
+    color: white;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    width: 92%;
+    max-width: 1250px;
+    margin: auto;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(2, 6, 23, 0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    color: #38bdf8;
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+}
+
+.nav-links a {
+    color: #cbd5e1;
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    color: #38bdf8;
+}
+
+.hero {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background:
+        linear-gradient(rgba(15,23,42,0.82), rgba(15,23,42,0.94)),
+        url('images/hero.jpg') center/cover;
+}
+
+.hero-content {
+    width: 100%;
+    padding: 60px 0;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 8vw, 84px);
+    line-height: 1.02;
+    margin-bottom: 24px;
+}
+
+.hero p {
+    max-width: 760px;
+    margin: auto;
+    font-size: clamp(16px, 2vw, 23px);
+    color: #cbd5e1;
+    padding: 0 14px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 38px;
+}
+
+.button {
+    background: #38bdf8;
+    color: #0f172a;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: 0.2s;
+    font-size: 16px;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+    background: #7dd3fc;
+}
+
+.secondary {
+    background: transparent;
+    border: 2px solid #38bdf8;
+    color: #38bdf8;
+}
+
+.secondary:hover {
+    background: #38bdf8;
+    color: #0f172a;
+}
+
+section {
+    padding: 100px 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title h2 {
+    font-size: clamp(34px, 4vw, 52px);
+    margin-bottom: 12px;
+}
+
+.section-title p {
+    color: #94a3b8;
+    font-size: 18px;
+}
+
+.grid {
+    display: grid;
+    gap: 30px;
+}
+
+.features {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.card {
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 22px;
+    transition: 0.25s;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 16px;
+    margin-bottom: 22px;
+    object-fit: cover;
+}
+
+.card h3 {
+    margin-bottom: 15px;
+    color: #38bdf8;
+    font-size: 28px;
+}
+
+.card p {
+    color: #cbd5e1;
+}
+
+.about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.about img {
+    width: 100%;
+    border-radius: 24px;
+}
+
+.stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 35px;
+}
+
+.stat h3 {
+    font-size: 42px;
+    color: #38bdf8;
+}
+
+.stat p {
+    color: #cbd5e1;
+}
+
+.work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.work-card {
+    text-align: center;
+    min-width: 0;
+}
+
+.work-icon {
+    font-size: clamp(42px, 5vw, 72px);
+    margin-bottom: 20px;
+}
+
+.work-card h3 {
+    font-size: clamp(20px, 2vw, 32px);
+}
+
+.work-card p {
+    font-size: clamp(12px, 1.1vw, 17px);
+    line-height: 1.4;
+}
+
+.news-carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding: 0 80px;
+}
+
+.news-carousel {
+    display: flex;
+    gap: 24px;
+
+    transition: transform 0.5s ease;
+    will-change: transform;
+
+    align-items: stretch;
+}
+
+.news-card {
+
+    flex: 0 0 calc((100% - 48px) / 3);
+
+    background: #1e293b;
+
+    border-radius: 22px;
+    overflow: hidden;
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    display: flex;
+    flex-direction: column;
+
+    height: 560px;
+
+    min-width: 0;
+}
+  
+.news-content {
+    padding: 26px;
+
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+    min-height: 0;
+}
+
+.news-content h3 {
+    margin-bottom: 14px;
+    color: #38bdf8;
+}
+
+.news-content p {
+
+    color: #cbd5e1;
+
+    white-space: normal;
+
+    overflow-wrap: anywhere;
+    word-break: normal;
+
+    hyphens: auto;
+
+    flex: 1;
+
+    font-size: 15px;
+    line-height: 1.5;
+
+    overflow-y: auto;
+
+    min-width: 0;
+}
+  
+.news-card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+
+    width: 52px;
+    height: 52px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(15,23,42,0.85);
+    color: white;
+
+    font-size: 28px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.carousel-btn:hover {
+    background: #38bdf8;
+    color: #0f172a;
+}
+
+.prev {
+    left: 20px;
+}
+
+.next {
+    right: 20px;
+}
+
+footer {
+    background: #020617;
+    padding: 50px 0;
+    text-align: center;
+    color: #94a3b8;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+@media(max-width: 1000px) {
+
+    .news-card {
+        flex: 0 0 calc((100% - 24px) / 2);
+    }
+
+}
+
+@media(max-width: 700px) {
+
+    .news-carousel-wrapper {
+        padding: 0 60px;
+    }
+
+}
+
+@media(max-width: 950px) {
+
+    .about {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media(max-width: 700px) {
+
+    nav {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .nav-links {
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .work-grid {
+        gap: 12px;
+    }
+
+    .work-card {
+        padding: 18px;
+    }
+
+    .work-card p {
+        line-height: 1.25;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    section {
+        padding: 70px 0;
+    }
+
+    .news-card {
+        min-width: 100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+
+        <nav>
+
+            <div class="logo">
+                Nathansoftware
+            </div>
+
+            <div class="nav-links">
+                <a href="#software">Software</a>
+                <a href="#about">About</a>
+                <a href="#work">Work</a>
+                <a href="#news">News</a>
+            </div>
+
+        </nav>
+
+    </div>
+</header>
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <h1>
+            Innovative Software Solutions
+        </h1>
+
+        <p>
+            Android apps, games, developer tools and software engineering
+            solutions focused on security, usability and modern design.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#software" class="button">
+                Downloads
+            </a>
+
+            <a href="#news" class="button secondary">
+                News
+            </a>
+
+            <a href="https://github.com/" class="button secondary">
+                Github
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="software">
+
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Featured Software</h2>
+
+            <p>
+                Applications, games and tools developed by Nathansoftware.
+            </p>
+        </div>
+
+        <div class="grid features">
+
+            <div class="card">
+
+                <img src="images/planet-bounce.jpg" alt="Planet Bounce">
+
+                <h3>Planet Bounce</h3>
+
+                <p>
+                    Arcade-style space combat game featuring fast-paced
+                    gameplay, downloadable content and multiplayer action.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <img src="images/survey.jpg" alt="Survey Creator">
+
+                <h3>Easy Survey Creator</h3>
+
+                <p>
+                    Cross-platform survey creation and presentation software
+                    with unlimited questions and analytics support.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <img src="images/tools.png" alt="Developer Tools">
+
+                <h3>Developer Tools</h3>
+
+                <p>
+                    Productivity utilities, image processing applications,
+                    timers and workflow automation tools.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="about">
+
+    <div class="container">
+
+        <div class="about">
+
+            <div>
+
+                <div class="section-title" style="text-align:left; margin-bottom:30px;">
+
+                    <h2>About Us</h2>
+
+                </div>
+
+                <p>
+                    Nathansoftware develops robust applications, games and
+                    software solutions with a strong focus on usability,
+                    performance and modern software engineering practices.
+                </p>
+
+                <br>
+
+                <p>
+                    We specialize in Java development, Android applications,
+                    desktop software and cybersecurity-focused development.
+                </p>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <h3>15K+</h3>
+                        <p>Downloads</p>
+                    </div>
+
+                    <div class="stat">
+                        <h3>10+</h3>
+                        <p>Projects</p>
+                    </div>
+
+                    <div class="stat">
+                        <h3>100%</h3>
+                        <p>Passion</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <img src="images/about.png" alt="About Nathansoftware">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="work">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Our Work</h2>
+
+            <p>
+                Games, applications and software engineering solutions.
+            </p>
+
+        </div>
+
+        <div class="grid work-grid">
+
+            <div class="card work-card">
+
+                <div class="work-icon">🎮</div>
+
+                <h3>Games</h3>
+
+                <p>
+                    Fast-paced arcade games and multiplayer experiences.
+                </p>
+
+            </div>
+
+            <div class="card work-card">
+
+                <div class="work-icon">🔧</div>
+
+                <h3>Tools</h3>
+
+                <p>
+                    Productivity tools and workflow automation applications.
+                </p>
+
+            </div>
+
+            <div class="card work-card">
+
+                <div class="work-icon">📱</div>
+
+                <h3>Apps</h3>
+
+                <p>
+                    Android and cross-platform applications tailored to
+                    modern user needs.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="news">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Latest News</h2>
+
+            <p>
+                Recent announcements and development updates.
+            </p>
+
+        </div>
+
+        <div class="news-carousel-wrapper">
+
+            <button class="carousel-btn prev" onclick="moveSlide(-1)">
+                ❮
+            </button>
+
+            <div class="news-carousel" id="newsCarousel">
+
+                <div class="news-card">
+                    <img src="images/lords.jpg" alt="Lords">
+                    <div class="news-content">
+                        <h3>Lords reaches 40,000 downloads</h3>
+                        <p>
+                            We are proud to announce 40,000 downloads!
+                            Now available on the latest version of
+                            The Battle for Wesnoth.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="images/giant-fairy.png" alt="Giant and Fairy">
+                    <div class="news-content">
+                        <h3>Giant and Fairy</h3>
+                        <p>
+                            Classic arcade-inspired puzzle platformer
+                            about teamwork and adventure.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="images/nzcsc.png" alt="NZCSC">
+                    <div class="news-content">
+                        <h3>NZCSC Hackathon 2021</h3>
+                        <p>
+                            Qualified for the national capture-the-flag
+                            cybersecurity event involving forensics,
+                            reverse engineering and scripting.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="images/draskin.jpg" alt="Draskin Conflict">
+                    <div class="news-content">
+                        <h3>Draskin Conflict App</h3>
+                        <p>
+                            Intense game of intrigue and discovery
+                            set in a post nuclear future.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="images/devastator.jpg" alt="Devastator">
+                    <div class="news-content">
+                        <h3>Devastator Release</h3>
+                        <p>
+                            New Planet Bounce DLC bringing even more
+                            ships, battles and galaxy conquering action.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="images/glasspane.jpg" alt="Glass Pane">
+                    <div class="news-content">
+                        <h3>UI Innovation</h3>
+                        <p>
+                            Floating desktop image manipulation and
+                            organization experience with Glass Pane.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="images/pb10000.jpg" alt="Planet Bounce">
+                    <div class="news-content">
+                        <h3>Planet Bounce 10,000 downloads</h3>
+                        <p>
+                            Planet Bounce reaches another incredible
+                            milestone with 10,000 downloads.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="images/kpmg.jpg" alt="KPMG">
+                    <div class="news-content">
+                        <h3>KPMG Cyber Challenge</h3>
+                        <p>
+                            Ranked 5th nationally in the KPMG Cyber
+                            Challenge hosted by ImmersiveLabs.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="carousel-btn next" onclick="moveSlide(1)">
+                ❯
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Nathansoftware. All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+<script>
+
+const carousel = document.getElementById("newsCarousel");
+
+let currentSlide = 0;
+
+function getVisibleCards() {
+
+    if(window.innerWidth <= 700) return 1;
+
+    if(window.innerWidth <= 1000) return 2;
+
+    return 3;
+}
+
+function moveSlide(direction) {
+
+    const cards = document.querySelectorAll(".news-card");
+
+    const visible = getVisibleCards();
+
+    const maxSlide = cards.length - visible;
+
+    currentSlide += direction;
+
+    if(currentSlide < 0) {
+        currentSlide = maxSlide;
+    }
+
+    if(currentSlide > maxSlide) {
+        currentSlide = 0;
+    }
+
+    const cardWidth = cards[0].offsetWidth + 24;
+
+    carousel.style.transform =
+        `translateX(-${currentSlide * cardWidth}px)`;
+}
+
+setInterval(() => {
+    moveSlide(1);
+}, 5000);
+
+window.addEventListener("resize", () => {
+    moveSlide(0);
+});
+
+</script>
+
+</body>
+</html>
