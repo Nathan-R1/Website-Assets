@@ -260,66 +260,82 @@ section {
 
 .game-hero {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 36px;
-    background: linear-gradient(135deg, #f7971e, #ffd200);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border-radius: 0;
-    padding: 44px;
-    margin-bottom: 30px;
+    padding: 30px;
+    margin-bottom: 0;
     position: relative;
     overflow: hidden;
-    min-height: 240px;
+    height: 320px;
     transition: background 0.5s ease;
+}
+
+@media (orientation: portrait) {
+    .game-hero {
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
 }
 
 .game-hero::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.05) 20px, rgba(255,255,255,0.05) 40px);
+    background: linear-gradient(transparent 40%, rgba(0,0,0,0.85));
 }
 
 .game-hero .hero-body {
     position: relative;
-    flex: 1;
+    z-index: 1;
 }
 
 .game-hero .hero-body h3 {
     font-size: 2.2rem;
     font-weight: 800;
-    color: #1a1a2e;
-    margin-bottom: 4px;
-}
-
-.game-hero .hero-body .genre {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: rgba(26,26,46,0.6);
-    margin-bottom: 10px;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
 .game-hero .hero-body p {
     font-size: 1rem;
-    color: #3d2e00;
+    color: rgba(255,255,255,0.85);
     max-width: 500px;
-    margin-bottom: 14px;
 }
 
-.game-hero .hero-body .stats {
+/* Hero info bar */
+.hero-bar {
+    background: #000;
+    padding: 14px 24px;
     display: flex;
-    gap: 24px;
-    font-size: 1rem;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: nowrap;
+    margin-bottom: 30px;
 }
 
-.game-hero .hero-body .stats span {
+.hero-bar span {
     display: flex;
     align-items: center;
     gap: 6px;
+    color: #94a3b8;
+    white-space: nowrap;
 }
 
-.game-hero .hero-body .stats .count { color: #1a1a2e; font-weight: 700; }
-.game-hero .hero-body .stats .stars { color: #c0392b; font-weight: 700; }
+.hero-bar .bar-label {
+    color: #64748b;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 2px;
+}
+
+.hero-bar .bar-genre { color: #38bdf8; font-weight: 600; }
+.hero-bar .bar-downloads { color: #fff; font-weight: 600; }
+.hero-bar .bar-stars { color: #ffd700; font-weight: 600; }
 
 /* Thumbnail carousel */
 .thumbs-outer {
@@ -337,8 +353,8 @@ section {
 }
 
 .thumb {
-    flex: 0 0 130px;
-    height: 110px;
+    flex: 0 0 150px;
+    height: 130px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -454,21 +470,24 @@ footer {
 
     .game-hero {
         flex-direction: column;
-        text-align: center;
-        padding: 30px 20px;
+        text-align: left;
+        padding: 16px;
+        height: auto;
+        aspect-ratio: 1 / 1;
     }
 
     .game-hero .hero-body p {
         max-width: none;
     }
 
-    .game-hero .hero-body .stats {
-        justify-content: center;
+    .hero-bar {
+        padding: 10px 12px;
+        gap: 8px;
     }
 
     .thumb {
-        flex: 0 0 100px;
-        height: 80px;
+        flex: 0 0 120px;
+        height: 100px;
     }
 
     .carousel-arrow.prev {
@@ -557,16 +576,16 @@ footer {
             <p>Click a game thumbnail to feature it.</p>
         </div>
 
-        <div class="game-hero" id="gameHero">
+        <div class="game-hero" id="gameHero" style="background-image: url(https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/lords.jpg)">
             <div class="hero-body">
                 <h3 id="heroTitle">Planet Bounce</h3>
-                <div class="genre" id="heroGenre">Action</div>
                 <p id="heroDesc">Action-packed arcade-style space combat. 15,000+ downloads on Steam! Spanish and Russian translations now available.</p>
-                <div class="stats">
-                    <span class="count" id="heroDownloads">&#11015; 15,000+</span>
-                    <span class="stars" id="heroStars">&#9733; 4.5</span>
-                </div>
             </div>
+        </div>
+        <div class="hero-bar" id="heroBar">
+            <span><span class="bar-label">Genre</span> <span class="bar-genre" id="barGenre">Action</span></span>
+            <span><span class="bar-label">Downloads</span> <span class="bar-downloads" id="barDownloads">&#11015; 15,000+</span></span>
+            <span><span class="bar-label">Rating</span> <span class="bar-stars" id="barStars">&#9733; 4.5</span></span>
         </div>
 
         <div class="thumbs-outer">
@@ -689,6 +708,7 @@ function renderThumbs() {
     track.innerHTML = games.map(g =>
         `<div class="thumb" data-id="${g.id}" onclick="swapHero(${g.id})" style="background-image: url(${demoImg})">
             <div class="t-name">${g.name}</div>
+            <div class="t-dl">${g.downloads}</div>
         </div>`
     ).join('');
     recalcCarousel();
@@ -697,14 +717,39 @@ function renderThumbs() {
 function swapHero(id) {
     if (id === currentHero) return;
     const g = games[id];
-    document.getElementById('gameHero').style.background = `${g.bg}, url(${demoImg}) center/cover`;
+    document.getElementById('gameHero').style.backgroundImage = `url(${demoImg})`;
     document.getElementById('heroTitle').textContent = g.name;
-    document.getElementById('heroGenre').textContent = g.genre;
     document.getElementById('heroDesc').textContent = g.desc;
-    document.getElementById('heroDownloads').innerHTML = g.downloads ? `&#11015; ${g.downloads}` : '';
-    document.getElementById('heroStars').innerHTML = g.stars ? `&#9733; ${g.stars}` : '';
+    document.getElementById('barGenre').textContent = g.genre;
+    document.getElementById('barDownloads').innerHTML = g.downloads ? `&#11015; ${g.downloads}` : '';
+    document.getElementById('barStars').innerHTML = g.stars ? `&#9733; ${g.stars}` : '';
     currentHero = id;
     document.querySelector('.thumbs-outer').scrollIntoView({ behavior: 'smooth', block: 'end' });
+    fitBar();
+}
+
+function fitBar() {
+    const bar = document.querySelector('.hero-bar');
+    const spans = bar.querySelectorAll('span');
+    const labels = bar.querySelectorAll('.bar-label');
+    bar.style.flexWrap = 'nowrap';
+    const all = [...spans];
+    all.forEach(s => s.style.fontSize = '');
+    if (bar.scrollWidth <= bar.clientWidth) return;
+    let low = 0.3;
+    let high = 2;
+    let best = 0.3;
+    for (let i = 0; i < 10; i++) {
+        const mid = (low + high) / 2;
+        all.forEach(s => s.style.fontSize = mid + 'rem');
+        if (bar.scrollWidth <= bar.clientWidth) {
+            best = mid;
+            low = mid;
+        } else {
+            high = mid;
+        }
+    }
+    all.forEach(s => s.style.fontSize = best + 'rem');
 }
 
 function recalcCarousel() {
@@ -769,7 +814,9 @@ function moveThumbs(dir) {
 })();
 
 window.addEventListener('resize', recalcCarousel);
+window.addEventListener('resize', fitBar);
 renderThumbs();
+fitBar();
 </script>
 
 </body>
