@@ -398,6 +398,19 @@ section {
     cursor: pointer;
 }
 
+@keyframes panImageUp {
+    from {
+        background-position: center bottom;
+    }
+    to {
+        background-position: center top;
+    }
+}
+
+.game-hero.pan-image {
+    animation: panImageUp 5s linear forwards;
+}
+
 @media (orientation: portrait) {
     .game-hero {
         height: auto;
@@ -784,9 +797,9 @@ const games = [
     { id: 0,  name: 'Planet Bounce',             genre: 'Action',   desc: 'Action-packed arcade-style space combat. 15,000+ downloads on Steam! Spanish and Russian translations now available.',              downloads: '15,000+', stars: '3.8', img: 'planetbounce-back.jpg', url: 'https://store.steampowered.com/app/1207770/Planet_Bounce/', bg: 'linear-gradient(135deg, #f7971e, #ffd200)' },
     { id: 1,  name: 'Cyclic Warriors',           genre: 'Action',   desc: 'Fast-paced time travel competitive movement shooter. Coming to Steam this month!',                                          downloads: '8,500+',    stars: '4.5',    img: 'cyclic.png',           url: 'https://store.steampowered.com/app/2746000/Cyclic_Warriors/', bg: 'linear-gradient(135deg, #667eea, #764ba2)' },
     { id: 2,  name: 'Giant and Fairy',           genre: 'Action',   desc: 'An epic action game pitting mighty giants against elusive fairies in mythical battles.',                                    downloads: '100+',   stars: '4.0', img: 'giant-and-fairy-back.jpg', url: 'https://sourceforge.net/projects/fairy-and-giant/', bg: 'linear-gradient(135deg, #f093fb, #f5576c)' },
-    { id: 3,  name: 'The Takeover',              genre: 'Action',   desc: 'High-stakes action game where strategic planning meets fast execution.',                                                  downloads: 'Soon',     stars: '',    img: 'takeover-back.jpg',      bg: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
+    { id: 3,  name: 'The Takeover',              genre: 'Action',   desc: 'High-stakes action game where strategic planning meets fast execution.',                                                  downloads: '',     stars: 'Coming Soon',    img: 'takeover-back.jpg',      bg: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
     { id: 4,  name: 'Connect Four',              genre: 'Arcade',   desc: 'Classic Connect Four game with a sleek 3D twist and multiplayer modes.',                                                    downloads: '700+',   stars: '4.1', img: 'connect-four-back.png', url: 'https://sourceforge.net/projects/nathansoftware-games/', bg: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
-    { id: 5,  name: 'Spell Blazer 3D',           genre: 'Arcade',   desc: 'Fast-paced spell-casting arcade action in full 3D. Master the elements!',                                                   downloads: 'Soon',     stars: '',    img: 'spellblazer3d-back.jpg', bg: 'linear-gradient(135deg, #fa709a, #fee140)' },
+    { id: 5,  name: 'Spell Blazer 3D',           genre: 'Arcade',   desc: 'Fast-paced spell-casting arcade action in full 3D. Master the elements!',                                                   downloads: '',     stars: 'Coming Soon',    img: 'spellblazer3d-back.jpg', bg: 'linear-gradient(135deg, #fa709a, #fee140)' },
     { id: 6,  name: 'Pacman 3D',                 genre: 'Arcade',   desc: 'The classic maze chase reimagined in stunning 3D with new power-ups.',                                                      downloads: '100+',   stars: '5.0', img: 'packman-back.jpg', url: 'https://github.com/Nathan-R1/Building-In-Unreal/tree/main/PacManProject', bg: 'linear-gradient(135deg, #fccb90, #d57eeb)' },
     { id: 7,  name: 'Black Jack 21',             genre: 'Arcade',   desc: 'Classic blackjack card game with beautiful visuals and realistic physics.',                                                  downloads: '700+',   stars: '3.5', img: 'blackjack-back.jpg', url: 'https://sourceforge.net/projects/nathansoftware-games/', bg: 'linear-gradient(135deg, #e0c3fc, #8ec5fc)' },
     { id: 8,  name: 'Reign of the Lords',        genre: 'Strategy', desc: 'Strategic kingdom management and conquest. Build your empire from the ground up.',                                        downloads: '40,000+',   stars: '5.0', bg: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
@@ -858,7 +871,7 @@ function renderThumbs() {
     track.innerHTML = games.map(g =>
         `<div class="thumb" data-id="${g.id}" onclick="swapHero(${g.id})" style="background-image: url(${g.img ? imgBase + g.img : demoImg})">
             <div class="t-name">${g.name}</div>
-            <div class="t-dl">${g.downloads}</div>
+            <div class="t-dl">${g.stars ? `&#9733; ${g.stars}` : ''}</div>
         </div>`
     ).join('');
     recalcCarousel();
@@ -867,16 +880,40 @@ function renderThumbs() {
 function swapHero(id) {
     if (id === currentHero) return;
     const g = games[id];
-    document.getElementById('gameHero').style.backgroundImage = `url(${g.img ? imgBase + g.img : demoImg})`;
+    const hero = document.getElementById('gameHero');
+    
+    // Remove animation class to reset
+    hero.classList.remove('pan-image');
+    
+    const imageUrl = g.img ? imgBase + g.img : demoImg;
+    hero.style.backgroundImage = `url(${imageUrl})`;
     document.getElementById('heroTitle').textContent = g.name;
     document.getElementById('heroDesc').textContent = g.desc;
     document.getElementById('barGenre').textContent = g.genre;
     document.getElementById('barDownloads').innerHTML = g.downloads ? `&#11015; ${g.downloads}` : '';
     document.getElementById('barStars').innerHTML = g.stars ? `&#9733; ${g.stars}` : '';
     currentHero = id;
+    
     if (window.innerWidth < 1024) {
         document.querySelector('.thumbs-outer').scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
+    
+    // Check image dimensions and trigger animation if needed (only on desktop)
+    if (window.innerWidth >= 1024) {
+        const img = new Image();
+        img.onload = function() {
+            const heroHeight = hero.offsetHeight;
+            // If image height is more than double the hero height, start panning animation
+            if (img.height > heroHeight) {
+                // Use requestAnimationFrame to ensure the class is applied after the image loads
+                requestAnimationFrame(() => {
+                    hero.classList.add('pan-image');
+                });
+            }
+        };
+        img.src = imageUrl;
+    }
+    
     fitBar();
 }
 
