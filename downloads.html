@@ -395,6 +395,7 @@ section {
     overflow: hidden;
     height: 320px;
     transition: background 0.5s ease;
+    cursor: pointer;
 }
 
 @media (orientation: portrait) {
@@ -718,7 +719,7 @@ footer {
             <p>Click a game thumbnail to feature it.</p>
         </div>
 
-        <div class="game-hero" id="gameHero" style="background-image: url(https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/lords.jpg)">
+        <div class="game-hero" id="gameHero" onclick="launchGame()" style="background-image: url(https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/planetbounce-back.jpg)">
             <div class="hero-body">
                 <h3 id="heroTitle">Planet Bounce</h3>
                 <p id="heroDesc">Action-packed arcade-style space combat. 15,000+ downloads on Steam! Spanish and Russian translations now available.</p>
@@ -777,19 +778,21 @@ const categories = {
 
 const demoImg = 'https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/lords.jpg';
 
+const imgBase = 'https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/';
+
 const games = [
-    { id: 0,  name: 'Planet Bounce',             genre: 'Action',   desc: 'Action-packed arcade-style space combat. 15,000+ downloads on Steam! Spanish and Russian translations now available.',              downloads: '15,000+', stars: '4.5', bg: 'linear-gradient(135deg, #f7971e, #ffd200)' },
-    { id: 1,  name: 'Cyclic Warriors',           genre: 'Action',   desc: 'Fast-paced time travel competitive movement shooter. Coming to Steam this month!',                                          downloads: 'Soon',     stars: '',    bg: 'linear-gradient(135deg, #667eea, #764ba2)' },
-    { id: 2,  name: 'Giant and Fairy',           genre: 'Action',   desc: 'An epic action game pitting mighty giants against elusive fairies in mythical battles.',                                    downloads: '2,100+',   stars: '4.2', bg: 'linear-gradient(135deg, #f093fb, #f5576c)' },
-    { id: 3,  name: 'The Takeover',              genre: 'Action',   desc: 'High-stakes action game where strategic planning meets fast execution.',                                                  downloads: '3,400+',   stars: '4.0', bg: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
-    { id: 4,  name: 'Connect Four',              genre: 'Arcade',   desc: 'Classic Connect Four game with a sleek 3D twist and multiplayer modes.',                                                    downloads: '8,200+',   stars: '4.6', bg: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
-    { id: 5,  name: 'Spell Blazer 3D',           genre: 'Arcade',   desc: 'Fast-paced spell-casting arcade action in full 3D. Master the elements!',                                                   downloads: '5,600+',   stars: '4.3', bg: 'linear-gradient(135deg, #fa709a, #fee140)' },
-    { id: 6,  name: 'Pacman 3D',                 genre: 'Arcade',   desc: 'The classic maze chase reimagined in stunning 3D with new power-ups.',                                                      downloads: '9,100+',   stars: '4.7', bg: 'linear-gradient(135deg, #fccb90, #d57eeb)' },
-    { id: 7,  name: 'Black Jack 21',             genre: 'Arcade',   desc: 'Classic blackjack card game with beautiful visuals and realistic physics.',                                                  downloads: '6,800+',   stars: '4.4', bg: 'linear-gradient(135deg, #e0c3fc, #8ec5fc)' },
-    { id: 8,  name: 'Reign of the Lords',        genre: 'Strategy', desc: 'Strategic kingdom management and conquest. Build your empire from the ground up.',                                        downloads: '4,300+',   stars: '4.5', bg: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
-    { id: 9,  name: 'Wilderness Adventure RPG',  genre: 'Strategy', desc: 'Open-world RPG with deep exploration, quests, and character progression.',                                             downloads: '3,900+',   stars: '4.1', bg: 'linear-gradient(135deg, #84fab0, #8fd3f4)' },
-    { id: 10, name: 'Murder Mystery',            genre: 'Strategy', desc: 'Solve challenging murder cases through deduction, clues, and interrogation.',                                         downloads: '5,200+',   stars: '4.3', bg: 'linear-gradient(135deg, #cfd9df, #e2ebf0)' },
-    { id: 11, name: 'Draskin Conflict',          genre: 'Strategy', desc: 'Tactical strategy game featuring deep gameplay, resource management, and war.',                                        downloads: '1,800+',   stars: '3.9', bg: 'linear-gradient(135deg, #ffecd2, #fcb69f)' }
+    { id: 0,  name: 'Planet Bounce',             genre: 'Action',   desc: 'Action-packed arcade-style space combat. 15,000+ downloads on Steam! Spanish and Russian translations now available.',              downloads: '15,000+', stars: '3.8', img: 'planetbounce-back.jpg', url: 'https://store.steampowered.com/app/1207770/Planet_Bounce/', bg: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+    { id: 1,  name: 'Cyclic Warriors',           genre: 'Action',   desc: 'Fast-paced time travel competitive movement shooter. Coming to Steam this month!',                                          downloads: '8,500+',    stars: '4.5',    img: 'cyclic.png',           url: 'https://store.steampowered.com/app/2746000/Cyclic_Warriors/', bg: 'linear-gradient(135deg, #667eea, #764ba2)' },
+    { id: 2,  name: 'Giant and Fairy',           genre: 'Action',   desc: 'An epic action game pitting mighty giants against elusive fairies in mythical battles.',                                    downloads: '100+',   stars: '4.0', img: 'giant-and-fairy-back.jpg', url: 'https://sourceforge.net/projects/fairy-and-giant/', bg: 'linear-gradient(135deg, #f093fb, #f5576c)' },
+    { id: 3,  name: 'The Takeover',              genre: 'Action',   desc: 'High-stakes action game where strategic planning meets fast execution.',                                                  downloads: 'Soon',     stars: '',    img: 'takeover-back.jpg',      bg: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
+    { id: 4,  name: 'Connect Four',              genre: 'Arcade',   desc: 'Classic Connect Four game with a sleek 3D twist and multiplayer modes.',                                                    downloads: '700+',   stars: '4.1', img: 'connect-four-back.png', url: 'https://sourceforge.net/projects/nathansoftware-games/', bg: 'linear-gradient(135deg, #43e97b, #38f9d7)' },
+    { id: 5,  name: 'Spell Blazer 3D',           genre: 'Arcade',   desc: 'Fast-paced spell-casting arcade action in full 3D. Master the elements!',                                                   downloads: 'Soon',     stars: '',    img: 'spellblazer3d-back.jpg', bg: 'linear-gradient(135deg, #fa709a, #fee140)' },
+    { id: 6,  name: 'Pacman 3D',                 genre: 'Arcade',   desc: 'The classic maze chase reimagined in stunning 3D with new power-ups.',                                                      downloads: '100+',   stars: '5.0', img: 'packman-back.jpg', url: 'https://github.com/Nathan-R1/Building-In-Unreal/tree/main/PacManProject', bg: 'linear-gradient(135deg, #fccb90, #d57eeb)' },
+    { id: 7,  name: 'Black Jack 21',             genre: 'Arcade',   desc: 'Classic blackjack card game with beautiful visuals and realistic physics.',                                                  downloads: '700+',   stars: '3.5', img: 'blackjack-back.jpg', url: 'https://sourceforge.net/projects/nathansoftware-games/', bg: 'linear-gradient(135deg, #e0c3fc, #8ec5fc)' },
+    { id: 8,  name: 'Reign of the Lords',        genre: 'Strategy', desc: 'Strategic kingdom management and conquest. Build your empire from the ground up.',                                        downloads: '40,000+',   stars: '5.0', bg: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
+    { id: 9,  name: 'Wilderness Adventure RPG',  genre: 'Strategy', desc: 'Open-world RPG with deep exploration, quests, and character progression.',                                             downloads: '700+',   stars: '5.0', img: 'wilderness-adventure-back.png', url: 'https://sourceforge.net/projects/nathansoftware-games/', bg: 'linear-gradient(135deg, #84fab0, #8fd3f4)' },
+    { id: 10, name: 'Murder Mystery',            genre: 'Strategy', desc: 'Solve challenging murder cases through deduction, clues, and interrogation.',                                         downloads: '<100',   stars: '5.0', img: 'murder-mystery-back.jpg', bg: 'linear-gradient(135deg, #cfd9df, #e2ebf0)' },
+    { id: 11, name: 'Draskin Conflict',          genre: 'Strategy', desc: 'Tactical strategy game featuring deep gameplay, resource management, and war.',                                        downloads: '<100',   stars: '5.0', url: 'https://sourceforge.net/projects/draskin-conflict/', bg: 'linear-gradient(135deg, #ffecd2, #fcb69f)' }
 ];
 
 let currentHero = 0;
@@ -843,7 +846,9 @@ function openCategory(key) {
     wrap.classList.add('open');
 
     setTimeout(() => {
-        wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (window.innerWidth < 1024) {
+            wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }, 100);
 }
 
@@ -851,7 +856,7 @@ function openCategory(key) {
 function renderThumbs() {
     const track = document.getElementById('thumbsTrack');
     track.innerHTML = games.map(g =>
-        `<div class="thumb" data-id="${g.id}" onclick="swapHero(${g.id})" style="background-image: url(${demoImg})">
+        `<div class="thumb" data-id="${g.id}" onclick="swapHero(${g.id})" style="background-image: url(${g.img ? imgBase + g.img : demoImg})">
             <div class="t-name">${g.name}</div>
             <div class="t-dl">${g.downloads}</div>
         </div>`
@@ -862,15 +867,24 @@ function renderThumbs() {
 function swapHero(id) {
     if (id === currentHero) return;
     const g = games[id];
-    document.getElementById('gameHero').style.backgroundImage = `url(${demoImg})`;
+    document.getElementById('gameHero').style.backgroundImage = `url(${g.img ? imgBase + g.img : demoImg})`;
     document.getElementById('heroTitle').textContent = g.name;
     document.getElementById('heroDesc').textContent = g.desc;
     document.getElementById('barGenre').textContent = g.genre;
     document.getElementById('barDownloads').innerHTML = g.downloads ? `&#11015; ${g.downloads}` : '';
     document.getElementById('barStars').innerHTML = g.stars ? `&#9733; ${g.stars}` : '';
     currentHero = id;
-    document.querySelector('.thumbs-outer').scrollIntoView({ behavior: 'smooth', block: 'end' });
+    if (window.innerWidth < 1024) {
+        document.querySelector('.thumbs-outer').scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
     fitBar();
+}
+
+function launchGame() {
+    const g = games[currentHero];
+    if (g.url) {
+        window.open(g.url, '_blank');
+    }
 }
 
 function fitBar() {
@@ -908,14 +922,19 @@ function recalcCarousel() {
     const thumbWidth = thumbs[0].offsetWidth;
 
     thumbsPerView = Math.max(1, Math.floor((containerWidth + gap) / (thumbWidth + gap)));
-    const totalPages = Math.ceil(thumbs.length / thumbsPerView);
     const perSlide = thumbsPerView * 2;
+    
+    // Show arrows if content overflows the container
+    const totalContentWidth = thumbs.length * (thumbWidth + gap) - gap;
+    const showArrows = totalContentWidth > containerWidth;
 
-    document.getElementById('thumbPrev').classList.toggle('show', totalPages > 1);
-    document.getElementById('thumbNext').classList.toggle('show', totalPages > 1);
+    document.getElementById('thumbPrev').classList.toggle('show', showArrows);
+    document.getElementById('thumbNext').classList.toggle('show', showArrows);
 
-    if (thumbPos > thumbs.length - perSlide) {
-        thumbPos = Math.max(0, thumbs.length - perSlide);
+    // Constrain thumbPos to valid range
+    const maxPos = Math.max(0, thumbs.length - thumbsPerView);
+    if (thumbPos > maxPos) {
+        thumbPos = maxPos;
     }
     if (thumbPos < 0) thumbPos = 0;
 
@@ -928,8 +947,9 @@ function moveThumbs(dir) {
     const thumbs = track.querySelectorAll('.thumb');
     const gap = 12;
     const thumbWidth = thumbs[0].offsetWidth;
-    const perSlide = thumbsPerView * 2;
-    const maxPos = Math.max(0, thumbs.length - perSlide);
+    
+    // Maximum position is when the last thumb aligns with the right edge
+    const maxPos = Math.max(0, thumbs.length - thumbsPerView);
 
     thumbPos += dir * thumbsPerView;
     if (thumbPos < 0) thumbPos = 0;
