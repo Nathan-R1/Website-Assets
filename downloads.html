@@ -88,7 +88,7 @@
             <div class="cat-card" onclick="toggleCategory('personal')" id="cat-personal">
                 <div class="cat-icon">&#128187;</div>
                 <h3>Personal</h3>
-                <div class="cat-count">4 free apps</div>
+                <div class="cat-count">Free apps for everyday</div>
                 <span class="cat-badge badge-free">Free</span>
                 <ul class="selling-points">
                     <li>Free access to essential tools</li>
@@ -101,8 +101,8 @@
             <div class="cat-card" onclick="toggleCategory('business')" id="cat-business">
                 <div class="cat-icon">&#128188;</div>
                 <h3>Business</h3>
-                <div class="cat-count">3 business apps</div>
-                <span class="cat-badge badge-biz">Business</span>
+                <div class="cat-count">Maximize business productivity</div>
+                <span class="cat-badge badge-biz">Free</span>
                 <ul class="selling-points">
                     <li>Team collaboration features</li>
                     <li>Improved productivity and workflow automation</li>
@@ -114,7 +114,7 @@
             <div class="cat-card" onclick="toggleCategory('pro')" id="cat-pro">
                 <div class="cat-icon">&#9889;</div>
                 <h3>Pro Addons</h3>
-                <div class="cat-count">3 premium addons</div>
+                <div class="cat-count">Premium addons</div>
                 <span class="cat-badge badge-pro">Pro</span>
                 <ul class="selling-points">
                     <li>Advanced enterprise capabilities</li>
@@ -147,24 +147,23 @@ const categories = {
         apps: [
             { name: 'Glass Pane Image Collector', desc: 'A lightweight personal tool for everyday productivity and screen management.', meta: 'Windows', link: 'https://sourceforge.net/projects/glass-pane-image-collector/', img: 'glass.png' },
             { name: 'Lockdown Buddy', desc: 'Personal safety and security tool designed to keep you informed and protected.', meta: 'Windows', link: 'https://sourceforge.net/projects/lockdown-buddy/', img: 'buddy.jpg' },
-            { name: 'ID Scanner', desc: 'Scan and verify identification documents quickly and securely from your Android device.', meta: 'Android', link: '#', img: 'ic.png' },
-            { name: 'Android Math Challenge', desc: 'Sharpen your math skills with timed challenges and progressively difficult puzzles.', meta: 'Android', link: '#', img: 'math.png' }
+            { name: 'Android Math Challenge', desc: 'Sharpen your math skills with timed challenges and progressively difficult puzzles.', meta: 'Android', link: 'https://sourceforge.net/projects/android-math-challenge/', img: 'math.png' }
         ]
     },
     business: {
         title: 'Business',
         apps: [
             { name: 'Easy Survey Creator', desc: 'Completely free survey software with tools to create, conduct, and analyze surveys with infinite questions. Over 4,000 downloads.', meta: 'Windows, Mac, Linux', link: 'https://sourceforge.net/projects/easy-survey-creator/', img: 'esc.png' },
-            { name: 'Advanced Business Timer', desc: 'Professional time-tracking and productivity management tool for businesses and freelancers.', meta: 'Windows', link: '#', img: 'timer.png' },
-            { name: 'Batch Text Writer', desc: 'Powerful batch file manipulation and text processing tool for automating repetitive tasks.', meta: 'Windows', link: '#', img: 'btw.jpg' }
+            { name: 'Advanced Business Timer', desc: 'Professional time-tracking and productivity management tool for businesses and freelancers.', meta: 'Windows', link: 'https://sourceforge.net/projects/android-math-challenge/', img: 'timer.png' },
+            { name: 'ID Scanner', desc: 'Scan and verify identification documents quickly and securely from your Android device.', meta: 'Android', link: 'https://github.com/Nathan-R1/IDScanner', img: 'ic.png' }
         ]
     },
     pro: {
         title: 'Pro Addons',
         apps: [
-            { name: 'Easy Survey Creator &mdash; Enterprise Plus', desc: 'Advanced survey features including custom branding, API access, team collaboration, and advanced analytics.', meta: 'Commercial License', link: 'https://sourceforge.net/projects/easy-survey-creator/', img: 'esc.png' },
-            { name: 'Batch Text Writer &mdash; Automation Suite', desc: 'Extended automation capabilities with regex support, template engine, scheduled runs, and cloud integration.', meta: 'Commercial License', link: '#', img: 'btw.jpg' },
-            { name: 'Advanced Business Timer &mdash; Team Edition', desc: 'Multi-user time tracking with reporting dashboards, payroll export, Slack/Teams integration, and project billing.', meta: 'Commercial License', link: '#', img: 'timer.png' }
+            { name: 'Easy Survey Creator &mdash; Enterprise Plus', desc: 'Advanced survey features including custom branding, API access, team collaboration, and advanced analytics.', meta: 'Commercial License', link: 'mailto:support@nathansoftware.com', img: 'esc.png' },
+            { name: 'Batch Text Writer &mdash; Automation Suite', desc: 'Extended automation capabilities with regex support, template engine, scheduled runs, and cloud integration.', meta: 'Commercial License', link: 'mailto:support@nathansoftware.com', img: 'btw.jpg' },
+            { name: 'Advanced Business Timer &mdash; Team Edition', desc: 'Multi-user time tracking with reporting dashboards, payroll export, Slack/Teams integration, and project billing.', meta: 'Commercial License', link: 'mailto:support@nathansoftware.com', img: 'timer.png' }
         ]
     }
 };
