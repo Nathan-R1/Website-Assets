@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>NZCSC Capture the Flag 2026 - Nathansoftware</title>
+
+<link rel="stylesheet" href="../styles/index.css">
+
+<style>
+
+.article {
+    padding: 80px 0 100px;
+}
+
+.article-header {
+    max-width: 900px;
+    margin: 0 auto 40px;
+}
+
+.article-date {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fbbf24;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+.article-header h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: #38bdf8;
+}
+
+.article-hero {
+    max-width: 900px;
+    margin: 0 auto 50px;
+}
+
+.article-hero img {
+    width: 100%;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.05);
+    object-fit: cover;
+}
+
+.article-body {
+    max-width: 900px;
+    margin: 0 auto;
+    color: #cbd5e1;
+    font-size: 17px;
+}
+
+.article-body p {
+    margin-bottom: 24px;
+}
+
+.article-body h2 {
+    color: white;
+    font-size: clamp(22px, 3vw, 30px);
+    margin: 40px 0 16px;
+}
+
+.article-placeholder {
+    background: transparent;
+    border: 1px dashed rgba(56,189,248,0.4);
+    border-radius: 16px;
+    padding: 30px;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #38bdf8;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.back-link:hover {
+    color: #7dd3fc;
+}
+
+.challenge {
+    margin-top: 60px;
+    padding-top: 50px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.article-body h3 {
+    color: #38bdf8;
+    font-size: clamp(24px, 3vw, 34px);
+    margin: 26px 0 8px;
+}
+
+.article-body h4 {
+    color: white;
+    font-size: clamp(18px, 2.5vw, 23px);
+    margin: 40px 0 14px;
+}
+
+.article-body strong {
+    color: white;
+}
+
+.subtitle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 30px;
+}
+
+.tag {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #7dd3fc;
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.35);
+    border-radius: 999px;
+    padding: 4px 14px;
+}
+
+code {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.92em;
+    color: #7dd3fc;
+    background: rgba(56,189,248,0.1);
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+pre {
+    background: #020617;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 22px;
+    overflow-x: auto;
+    margin-bottom: 24px;
+}
+
+pre code {
+    display: block;
+    background: none;
+    padding: 0;
+    color: #a5f3fc;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.callout {
+    background: rgba(56,189,248,0.08);
+    border-left: 4px solid #38bdf8;
+    border-radius: 0 12px 12px 0;
+    padding: 18px 24px;
+    margin-bottom: 24px;
+}
+
+.math {
+    text-align: center;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 17px;
+    color: white;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 24px;
+}
+
+.step-list {
+    list-style: none;
+    counter-reset: step;
+    margin: 0 0 24px;
+}
+
+.step-list li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 44px;
+    margin-bottom: 12px;
+}
+
+.step-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(56,189,248,0.12);
+    border: 1px solid rgba(56,189,248,0.4);
+    color: #38bdf8;
+    font-weight: bold;
+    font-size: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flag-box {
+    text-align: center;
+    background: #020617;
+    border: 1px solid rgba(251,191,36,0.45);
+    border-radius: 16px;
+    padding: 30px 24px;
+    margin: 34px 0;
+}
+
+.flag-box .label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fbbf24;
+    margin-bottom: 12px;
+}
+
+.flag-box code {
+    display: inline-block;
+    background: none;
+    padding: 0;
+    color: #7dd3fc;
+    font-size: clamp(14px, 2.6vw, 18px);
+    word-break: break-all;
+    line-height: 1.5;
+}
+
+@media(max-width: 700px) {
+
+    pre {
+        padding: 16px;
+    }
+
+    pre code {
+        font-size: 13px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+
+        <nav>
+
+            <div class="logo">
+                <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/logo.png" alt="Nathansoftware" style="height: 48px; width: auto; display: block;">
+            </div>
+
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../downloads.html">Downloads</a>
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#work">Work</a>
+                <a href="../index.html#news">News</a>
+            </div>
+
+        </nav>
+
+    </div>
+</header>
+
+<section class="article">
+
+    <div class="container">
+
+        <div class="article-header">
+            <span class="article-date">Aug 2026</span>
+            <h1>NZCSC Capture the Flag</h1>
+        </div>
+
+        <div class="article-hero">
+            <img src="https://cdn.jsdelivr.net/gh/Nathan-R1/Website-Assets@main/assets/ctf.png" alt="NZCSC Capture the Flag">
+        </div>
+
+        <div class="article-body">
+
+            <p>
+                The Nathansoftware team has qualified for the national
+                NZCSC Capture the Flag (CTF) cybersecurity event after
+                completing a handful of qualifying challenges.
+            </p>
+
+            <p>
+                Our first full writeup from the NZCSC challenge is below,
+                with more challenges to be published here soon.
+            </p>
+
+            <h2>Qualifying Challenges</h2>
+
+            <p>
+                Qualification involved tackling a range of challenges,
+                including reverse engineering binaries, breaking weak
+                encryption and decrypting intercepted traffic, along
+                with more categories to be documented here.
+            </p>
+
+            <div class="article-placeholder">
+                Placeholder content &mdash; a full writeup of each
+                challenge, tools used and solutions will be added later.
+            </div>
+
+            <div class="challenge">
+
+                <h2>Challenge 5 Writeup</h2>
+
+                <h3>RSA Near-Prime Factorization</h3>
+                <div class="subtitle">
+                    <span class="tag">crypto</span><span class="tag">RSA</span><span class="tag">Fermat factorization</span>
+                </div>
+
+                <h4>The Vulnerability</h4>
+                <p>Looking at the provided source code, the prime generation logic stands out immediately:</p>
+                <pre><code>p = getPrime(2048)
+q = p + 2
+while not isPrime(q):
+    q += 2</code></pre>
+                <p>
+                    Normal RSA key generation picks <code>p</code> and <code>q</code> as two large,
+                    <em>independently random</em> primes of similar bit-length. Here, <code>q</code> is derived
+                    directly from <code>p</code> by walking upward in steps of 2 until the next prime is found.
+                    Since primes of this size are spaced (on average) only a few hundred integers apart,
+                    <code>q</code> ends up extremely close to <code>p</code> &mdash; typically within a few dozen
+                    increments of <code>+2</code>.
+                </p>
+                <div class="callout">
+                    This is the classic setup for <strong>Fermat's factorization method</strong>, which is
+                    efficient precisely when the two factors of <code>N</code> are close together.
+                </div>
+
+                <h4>Why Fermat's Method Works Here</h4>
+                <p>If <code>N = p * q</code> and <code>p &asymp; q</code>, we can write:</p>
+                <div class="math">a = (p + q) / 2 &nbsp;&nbsp;&nbsp; b = (q - p) / 2</div>
+                <p>so that <code>N = a&sup2; - b&sup2;</code> (a difference of squares). Since <code>b</code> is small
+                    (because <code>p</code> and <code>q</code> are close), we can find it by:</p>
+
+                <ol class="step-list">
+                    <li>Starting with <code>a = ceil(sqrt(N))</code></li>
+                    <li>Computing <code>b&sup2; = a&sup2; - N</code></li>
+                    <li>Checking if <code>b&sup2;</code> is a perfect square</li>
+                    <li>If not, incrementing <code>a</code> by 1 and repeating</li>
+                </ol>
+
+                <p>
+                    The number of iterations needed is roughly proportional to how far apart
+                    <code>p</code> and <code>q</code> are &mdash; which, given the <code>+2, +2, +2...</code>
+                    search here, is tiny compared to the size of the primes themselves (2048 bits). This turns
+                    an intractable factoring problem into one solvable in a handful of iterations instead of
+                    astronomically many.
+                </p>
+
+                <h4>Implementation</h4>
+                <p>Using <code>gmpy2</code> for fast arbitrary-precision integer square roots:</p>
+                <pre><code>from gmpy2 import mpz, isqrt
+
+N = mpz(N)
+a = isqrt(N) + 1
+while True:
+    b2 = a*a - N
+    b = isqrt(b2)
+    if b*b == b2:
+        p = a - b
+        q = a + b
+        break
+    a += 1</code></pre>
+                <p>
+                    This found the factorization on essentially the <strong>first iteration</strong>
+                    (<code>count = 0</code>), confirming just how close <code>p</code> and <code>q</code> were.
+                </p>
+
+                <h4>Decrypting the Flag</h4>
+                <p>With <code>p</code> and <code>q</code> recovered, standard RSA decryption applies:</p>
+                <pre><code>phi = (p - 1) * (q - 1)
+d = pow(e, -1, phi)          # modular inverse of e mod phi
+m = pow(flag_enc, d, N)      # standard RSA decryption
+flag = long_to_bytes(m)</code></pre>
+
+                <div class="flag-box">
+                    <div class="label">Recovered Flag</div>
+                    <code>NZCSC{RS4_W1TH_N34R_PR1ME5_1S_ROOTED}</code>
+                </div>
+
+                <h4>Takeaway</h4>
+                <p>
+                    RSA security relies on <code>N</code>'s factors being <em>unpredictably far apart</em> in the
+                    space of possible primes. Any shortcut in prime generation that produces <code>p</code> and
+                    <code>q</code> close to each other &mdash; sequential search, shared high-order bits, small
+                    offsets, etc. &mdash; reduces factoring to a fast difference-of-squares search rather than
+                    requiring general-purpose factoring algorithms. The lesson embedded in the flag itself
+                    (<code>ROOTED</code>) is a pun: literally solved by taking integer square roots.
+                </p>
+
+            </div>
+
+            <a href="../index.html#news" class="back-link">&larr; Back to News</a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <div class="container">
+
+        <p>
+            © 2026 Nathansoftware. All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
