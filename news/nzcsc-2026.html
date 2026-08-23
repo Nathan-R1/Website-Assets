@@ -404,6 +404,82 @@ flag = long_to_bytes(m)</code></pre>
 
             </div>
 
+            <div class="challenge">
+
+                <h2>Challenge 8 Writeup</h2>
+
+                <h3>Race Condition to Command Injection</h3>
+                <div class="subtitle">
+                    <span class="tag">race condition</span><span class="tag">command injection</span><span class="tag">threading</span>
+                </div>
+
+                <p>
+                    This challenge contained a command injection vulnerability caused by a combination
+                    of <strong>global mutable state</strong>, <strong>threading</strong>, and
+                    <code>shell=True</code>.
+                </p>
+
+                <h4>The Vulnerability</h4>
+                <p>The application stored the user-controlled hostname in a global variable before validating it:</p>
+                <pre><code>bird_song_host = input(...).strip()
+
+for c in bird_song_host:
+    if c not in "abcdefghijklmnopqrstuvwxyz0123456789.":
+        print(f"'{c}' is not allowed")
+        return</code></pre>
+                <p>
+                    Although invalid characters were rejected, the malicious value had already been assigned
+                    to <code>bird_song_host</code>.
+                </p>
+
+                <p>A worker thread repeatedly read this same global variable and executed a shell command:</p>
+                <pre><code>for i in range(number_of_songs):
+    command = f'echo "TODO: implement sending a bird song to {bird_song_host}"'
+
+    running_task = subprocess.run(
+        command,
+        shell=True,
+        capture_output=True,
+        text=True,
+        check=False
+    )
+
+    time.sleep(1)</code></pre>
+
+                <h4>Exploitation</h4>
+                <ol class="step-list">
+                    <li>
+                        Started a worker using a valid hostname with 10 iterations. This kept the worker
+                        running long enough to exploit the shared global state.
+                    </li>
+                    <li>
+                        While the worker was still running, started another bird song request and entered
+                        the payload <code>x&quot;; cat flag.txt; echo &quot;x</code>.
+                    </li>
+                    <li>
+                        The application rejected the input, but the global variable had already been overwritten.
+                        On the worker's next iteration, the resulting command was approximately:
+                        <code>echo &quot;TODO: implement sending a bird song to x&quot;; cat flag.txt; echo &quot;x&quot;</code>
+                    </li>
+                    <li>
+                        Because <code>shell=True</code> was used, the injected command executed. Checking
+                        the bird song status then displayed the output, including the flag.
+                    </li>
+                </ol>
+
+                <h4>Key Takeaway</h4>
+                <ul>
+                    <li>User input was stored before validation.</li>
+                    <li>A worker thread could read the overwritten global variable.</li>
+                    <li>The value was inserted into a shell command using <code>shell=True</code>.</li>
+                </ul>
+                <p>
+                    Together, these issues turned an apparent input validation check into a
+                    race-condition-based command injection vulnerability.
+                </p>
+
+            </div>
+
             <a href="../index.html#news" class="back-link">&larr; Back to News</a>
 
         </div>
