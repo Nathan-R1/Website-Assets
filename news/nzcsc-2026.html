@@ -477,6 +477,113 @@ for c in bird_song_host:
 
             <div class="challenge">
 
+                <h2>Challenge 11 Writeup</h2>
+
+                <h3>Exploiting PHP Type Juggling</h3>
+                <div class="subtitle">
+                    <span class="tag">web</span><span class="tag">PHP magic hashes</span><span class="tag">loose comparison</span><span class="tag">type juggling</span>
+                </div>
+
+                <p>
+                    This challenge focuses on exploiting loose comparisons (<code>==</code>) in PHP to leak a
+                    secret password (Part 1) and bypass cryptographic verification to retrieve the flag
+                    (Part 2). The target application evaluates the following vulnerable logic:
+                </p>
+                <pre><code>if (($md5_check == $cust) &amp;&amp; ($sha1_check == $cust)) {
+    $msg = "FLAG: " . $FLAG;
+}
+else if ($md5_check == $cust) {
+    $msg = "HINT: " . $SECRET_PASSWORD;
+}</code></pre>
+
+                <h4>The Core Vulnerability: PHP "Magic Hashes"</h4>
+                <p>
+                    In PHP, using <code>==</code> to compare two strings causes PHP to attempt numeric
+                    conversion if both strings match scientific notation. Any string matching the pattern
+                    <code>/^0e\d+$/</code> (e.g. <code>"0e12345678"</code>) is converted to
+                    0&times;10<sup>n</sup>, which evaluates to <code>0</code>. Comparing two such strings
+                    yields <code>true</code>:
+                </p>
+                <div class="math">"0e12345678" == "0e98765432" &nbsp;&rArr;&nbsp; 0 == 0 &nbsp;&rArr;&nbsp; true</div>
+
+                <h4>Part 1: Extracting $SECRET_PASSWORD (The Hint Oracle)</h4>
+                <p>
+                    <strong>Objective:</strong> trigger the <code>else if ($md5_check == $cust)</code> branch
+                    to reveal <code>$SECRET_PASSWORD</code>. SHA-1 is completely irrelevant for this step.
+                </p>
+                <p><strong>Mechanics &amp; probability:</strong></p>
+                <ol class="step-list">
+                    <li>
+                        Force <code>$cust = "0e10"</code>: hex <code>0e10</code> equals decimal
+                        <code>3600</code>. By generating a salt with an ASCII sum of <code>1008</code>,
+                        the combined ASCII sum of <code>$SECRET_PASSWORD . $salt</code> hits <code>3600</code>,
+                        guaranteeing <code>$cust = "0e10"</code> (which evaluates to <code>0</code>).
+                    </li>
+                    <li>
+                        Match MD5: we only need <code>substr(md5(...), 0, 10)</code> to start with
+                        <code>0e</code> followed by 8 decimal digits (<code>/^0e\d{8}$/</code>).
+                    </li>
+                </ol>
+                <div class="math">P(MD5 magic) = (1/16)&sup2; &times; (10/16)<sup>8</sup> &asymp; 1 / 429.5</div>
+                <p>
+                    With odds of 1 in ~430 attempts, an online script hitting the web endpoint easily leaks
+                    <code>$SECRET_PASSWORD</code> in a few seconds.
+                </p>
+
+                <h4>Part 2: Retrieving the Flag (Triple Collision)</h4>
+                <p>
+                    <strong>Objective:</strong> trigger the
+                    <code>if (($md5_check == $cust) &amp;&amp; ($sha1_check == $cust))</code> branch to
+                    retrieve <code>$FLAG</code>.
+                </p>
+                <p>
+                    Once <code>$SECRET_PASSWORD</code> is known, we can run an offline brute-force attack to
+                    satisfy all three conditions simultaneously:
+                </p>
+                <ol class="step-list">
+                    <li>
+                        <strong>Pre-padded custom hash:</strong> using standard character padding on our
+                        candidate counter, we continuously force the total ASCII sum to <code>3584</code>
+                        (<code>0x0e00</code> in hex), ensuring <code>$cust = "0e00"</code> &mdash; a 100%
+                        success rate, eliminating the 1-in-650 penalty.
+                    </li>
+                    <li>
+                        <strong>Cryptographic magic hashes:</strong> both 10-character prefixes for MD5 and
+                        SHA-1 must match <code>/^0e\d{8}$/</code>.
+                    </li>
+                </ol>
+                <div class="math">P(MD5) &asymp; 1/11,000 &nbsp;&nbsp;&nbsp; P(SHA-1) &asymp; 1/11,000</div>
+                <div class="math">P(both hashes) = 1/11,000 &times; 1/11,000 &asymp; 1 / 121,000,000</div>
+
+                <h4>Execution Strategy</h4>
+                <ul>
+                    <li>
+                        Python multiprocessing: ~3.5M hashes/sec &mdash; expected search time of ~35 seconds
+                        across the ~120M hash space.
+                    </li>
+                    <li>
+                        Multithreaded C (<code>libcrypto</code>): ~60M hashes/sec &mdash; expected search time
+                        of ~2 seconds.
+                    </li>
+                </ul>
+                <p>
+                    By searching the 120-million space offline using a multi-core C or Python script, we find
+                    a salt that satisfies both hash conditions and submit it via a single POST request to
+                    claim the flag.
+                </p>
+
+                <h4>Takeaway</h4>
+                <p>
+                    Loose comparison (<code>==</code>) should never be used for cryptographic values. PHP's
+                    <em>magic hashes</em> turn hash-prefix checks into trivially collidable numeric
+                    comparisons &mdash; use strict comparison (<code>===</code>) with
+                    <code>hash_equals()</code> instead.
+                </p>
+
+            </div>
+
+            <div class="challenge">
+
                 <h2>Challenge 13 Writeup</h2>
 
                 <h3>NoSQL Injection</h3>
