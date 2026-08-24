@@ -387,11 +387,6 @@ d = pow(e, -1, phi)          # modular inverse of e mod phi
 m = pow(flag_enc, d, N)      # standard RSA decryption
 flag = long_to_bytes(m)</code></pre>
 
-                <div class="flag-box">
-                    <div class="label">Recovered Flag</div>
-                    <code>NZCSC{RS4_W1TH_N34R_PR1ME5_1S_ROOTED}</code>
-                </div>
-
                 <h4>Takeaway</h4>
                 <p>
                     RSA security relies on <code>N</code>'s factors being <em>unpredictably far apart</em> in the
@@ -476,6 +471,69 @@ for c in bird_song_host:
                 <p>
                     Together, these issues turned an apparent input validation check into a
                     race-condition-based command injection vulnerability.
+                </p>
+
+            </div>
+
+            <div class="challenge">
+
+                <h2>Challenge 13 Writeup</h2>
+
+                <h3>NoSQL Injection</h3>
+                <div class="subtitle">
+                    <span class="tag">NoSQL injection</span><span class="tag">MongoDB</span><span class="tag">blind regex oracle</span>
+                </div>
+
+                <p>
+                    The application exposed a <code>POST /login</code> endpoint accepting JSON
+                    <code>username</code> and <code>password</code> fields. Although the challenge claimed
+                    to have eliminated SQL injection, it was vulnerable to <strong>NoSQL injection</strong>
+                    because user-controlled JSON objects were passed directly into a MongoDB-style query.
+                </p>
+
+                <h4>The Vulnerability</h4>
+                <p>
+                    The key was MongoDB's <code>$ne</code> operator, which means <em>not equal</em>.
+                    Instead of supplying strings, we supplied objects:
+                </p>
+                <pre><code>{"username":{"$ne":null},"password":{"$ne":null}}</code></pre>
+                <p>
+                    MongoDB interpreted this as a query for a user whose username and password were both
+                    not <code>null</code>, which matched the <code>admin</code> account and returned:
+                </p>
+                <pre><code>{"success":true,"user":"admin"}</code></pre>
+                <div class="callout">
+                    The underlying issue was insufficient input validation: the application expected
+                    strings but allowed arbitrary MongoDB query operators.
+                </div>
+
+                <h4>Blind Regex Extraction</h4>
+                <p>
+                    We could then turn the password check into a <strong>blind regex oracle</strong> using
+                    MongoDB's <code>$regex</code> operator. For example:
+                </p>
+                <pre><code>{"username":"admin","password":{"$regex":"^NZCSC\\{"}}</code></pre>
+                <p>
+                    This returned success, proving that the admin password began with <code>NZCSC{</code>.
+                    We could test candidate characters by extending the regex: if <code>^NZCSC{s</code>
+                    returned success while <code>^NZCSC{a</code> did not, we knew the next character was
+                    <code>s</code>. Repeating this process allowed the password &mdash; and therefore the
+                    flag &mdash; to be recovered without directly reading the database.
+                </p>
+
+                <h4>Speeding It Up</h4>
+                <p>
+                    Rather than testing every possible character individually, candidates can be split into
+                    groups using regex character classes such as <code>[a-m]</code>. A successful match tells
+                    us the next character is within that group, allowing a binary-search approach and reducing
+                    the number of requests to roughly <code>log&#8322;(n)</code> per character.
+                </p>
+
+                <h4>Takeaway</h4>
+                <p>
+                    The challenge combined two vulnerabilities: <strong>NoSQL operator injection to bypass
+                    authentication</strong>, followed by <strong>blind regex-based extraction of the flag from
+                    the admin password</strong>.
                 </p>
 
             </div>
